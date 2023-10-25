@@ -1,0 +1,3 @@
+start the project with index/login.php
+
+http://localhost/ecommerce_php/index/login.php
