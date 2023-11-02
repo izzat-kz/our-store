@@ -1,7 +1,8 @@
-start the project with index/login.php
-http://localhost/ecommerce_php/index/login.php
+# Initiate xampp (Apache & MySQL)
 
 
 # Import file project.sql into phpmyadmin
 
-# start xampp (Apache & MySQL)
+
+# Begin the project with index/login.php
+http://localhost/ecommerce_php/index/login.php
