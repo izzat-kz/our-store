@@ -3,25 +3,20 @@ session_start();
 include('../config/dbcon.php');
 include('includes/header.php');
 
-// Check if the cart session variable exists
 $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : array();
 
 $total = 0;
 foreach ($cart as $product_id => $product) {
-    // Retrieve the product details from the database
     $query = "SELECT price FROM products WHERE product_id = $product_id";
     $query_run = mysqli_query($con, $query);
     $row = mysqli_fetch_assoc($query_run);
 
-    // Calculate the subtotal for each product
     $subtotal = $row['price'] * $product['quantity'];
     $total += $subtotal;
     
-    // Update the subtotal in the cart session variable
     $cart[$product_id]['subtotal'] = $subtotal;
 }
 
-// Update the cart session variable with the updated subtotals
 $_SESSION['cart'] = $cart;
 
 

@@ -9,7 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['checkout'])) {
         $grand_total = $_POST['grand_total'];
 
-        // Check if the cust_id exists in the customers table
         $check_customer_query = "SELECT * FROM customers WHERE cust_id = '$cust_id'";
         $check_customer_result = mysqli_query($con, $check_customer_query);
         $customer = mysqli_fetch_assoc($check_customer_result);
@@ -20,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit(0);
         }
 
-        // Perform the database query
         $result = mysqli_query($con, $insert_order_query);
 
         if ($result) {

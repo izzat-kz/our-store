@@ -8,7 +8,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $order_id = $_POST['order_id'];
         $status = $_POST['status'];
 
-        // Update the order status in the database
         $query = "UPDATE orders SET status = '$status' WHERE order_id = $order_id";
         $query_run = mysqli_query($con, $query);
 

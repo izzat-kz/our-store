@@ -10,7 +10,6 @@ if (isset($_POST['login_btn'])) {
     $login_query_run = mysqli_query($con, $login_query);
 
     if (mysqli_num_rows($login_query_run) > 0) {
-        // Customers login successful
         foreach ($login_query_run as $data) {
             $user_id = $data['cust_id'];
             $user_name = $data['fullname'];
@@ -30,8 +29,6 @@ if (isset($_POST['login_btn'])) {
         exit(0);
         
     } else {
-        // User login not found in customers table
-        // Check admins table
         $login_query = "SELECT * FROM admins WHERE email='$email' AND password='$password' LIMIT 1";
         $login_query_run = mysqli_query($con, $login_query);
 
