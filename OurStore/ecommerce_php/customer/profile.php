@@ -4,12 +4,10 @@ include('../config/dbcon.php');
 
 $cust_id = $_SESSION['auth_user']['user_id'];
 
-// Fetch customer profile details
 $query = "SELECT * FROM customers WHERE cust_id = '$cust_id'";
 $result = mysqli_query($con, $query);
 $customer = mysqli_fetch_assoc($result);
 
-// Fetch past orders
 $order_query = "SELECT o.order_id, p.name AS product_name, o.grand_total, o.created_at, o.status, p.price
                 FROM orders o 
                 INNER JOIN products p ON o.product_id = p.product_id
@@ -17,11 +15,9 @@ $order_query = "SELECT o.order_id, p.name AS product_name, o.grand_total, o.crea
                 ORDER BY o.created_at DESC";
 $order_result = mysqli_query($con, $order_query);
 
-// Fetch customer's destinations
 $destination_query = "SELECT * FROM destination WHERE cust_id = '$cust_id'";
 $destination_result = mysqli_query($con, $destination_query);
 
-// Fetch ratings and reviews
 $ratings_query = "SELECT r.*, p.name FROM ratings r
                     INNER JOIN products p ON r.product_id = p.product_id
                     WHERE r.cust_id = '$cust_id'";
