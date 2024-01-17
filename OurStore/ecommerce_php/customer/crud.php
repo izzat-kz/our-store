@@ -2,25 +2,20 @@
 session_start();
 include('../config/dbcon.php');
 
-// Check if the cart session variable exists
 $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : array();
 
 // Add product to cart
 if (isset($_POST['add_to_cart'])) {
     $product_id = $_POST['product_id'];
 
-    // Retrieve product details from the database
     $query = "SELECT * FROM products WHERE product_id = $product_id";
     $result = mysqli_query($con, $query);
     $product = mysqli_fetch_assoc($result);
 
     if ($product) {
-        // Check if the product already exists in the cart
         if (array_key_exists($product_id, $cart)) {
-            // Increase the quantity if the product is already in the cart
             $cart[$product_id]['quantity'] += $_POST['quantity'];
         } else {
-            // Add the product to the cart with quantity 1
             $cart[$product_id] = array(
                 'name' => $product['name'],
                 'price' => $product['price'],
@@ -79,20 +74,16 @@ if (isset($_POST['update_cart'])) {
 if (isset($_POST['delete_cust'])) {
     $cust_id = $_POST['delete_cust'];
 
-    // Delete customer from customers table
     $customer_query = "DELETE FROM customers WHERE cust_id='$cust_id'";
     $customer_result = mysqli_query($con, $customer_query);
 
     if ($customer_result) {
-        // Delete customer's addresses
         $address_query = "DELETE FROM addresses WHERE cust_id='$cust_id'";
         $address_result = mysqli_query($con, $address_query);
 
-        // Delete customer's cart items
         $cart_query = "DELETE FROM cart WHERE cust_id='$cust_id'";
         $cart_result = mysqli_query($con, $cart_query);
 
-        // Delete customer's ratings
         $rating_query = "DELETE FROM ratings WHERE cust_id='$cust_id'";
         $rating_result = mysqli_query($con, $rating_query);
 
@@ -242,7 +233,6 @@ if (isset($_POST['checkout'])) {
     $cust_id = $_SESSION['cust_id'];
     $grand_total = $_POST['grand_total'];
 
-    // Check if the cust_id exists in the customers table
     $check_customer_query = "SELECT * FROM customers WHERE cust_id = '$cust_id'";
     $check_customer_result = mysqli_query($con, $check_customer_query);
     $customer = mysqli_fetch_assoc($check_customer_result);
@@ -253,7 +243,6 @@ if (isset($_POST['checkout'])) {
         exit(0);
     }
 
-    // Insert the order details into the orders table
     $insert_order_query = "INSERT INTO orders (product_id, cust_id, grand_total, created_at, status) VALUES ";
     $values = array();
     foreach ($cart as $product_id => $product) {
@@ -261,7 +250,6 @@ if (isset($_POST['checkout'])) {
     }
     $insert_order_query .= implode(", ", $values);
 
-    // Perform the database query
     $result = mysqli_query($con, $insert_order_query);
 
     if ($result) {
