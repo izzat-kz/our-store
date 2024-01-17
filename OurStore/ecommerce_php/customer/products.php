@@ -3,7 +3,6 @@ session_start();
 include('includes/header.php');
 include('../config/dbcon.php');
 
-// Fetch products
 $sort = isset($_GET['sort']) ? $_GET['sort'] : '';
 $sort_query = '';
 
@@ -19,10 +18,8 @@ if ($sort === 'price_asc') {
 
 $product_query = "SELECT * FROM products $sort_query";
 
-// Check if a search query is provided
 $query = isset($_GET['query']) ? $_GET['query'] : '';
 if (!empty($query)) {
-    // Add the search condition to the query
     $product_query .= " WHERE name LIKE '%$query%'";
 }
 
@@ -85,7 +82,7 @@ $product_count = mysqli_num_rows($product_result);
                     <?php
                     $column_count++;
                     if ($column_count % 4 == 0) {
-                        echo '</div><div class="row">'; // Start a new row after every 5 columns
+                        echo '</div><div class="row">';
                     }
                     ?>
             <?php endwhile; ?>
