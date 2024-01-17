@@ -3,7 +3,6 @@ session_start();
 include('includes/header.php');
 include('../config/dbcon.php');
 
-// Fetch single product details
 $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : null;
 if (!$product_id) {
     $_SESSION['message'] = "Invalid product ID";
@@ -16,19 +15,15 @@ $product_query = "SELECT p.*, c.name AS category_name FROM products p
 $product_result = mysqli_query($con, $product_query);
 $product_data = mysqli_fetch_assoc($product_result);
 
-// Check if the user is logged in
 $user_id = isset($_SESSION['auth_user']['user_id']) ? $_SESSION['auth_user']['user_id'] : null;
 
-// Add rating functionality
 if (isset($_POST['submit_rating'])) {
     $rating = $_POST['rating'];
     $review = $_POST['review'];
 
-    // Insert the rating into the database
     $insert_rating_query = "INSERT INTO ratings (product_id, cust_id, rating, review, created_at) VALUES ($product_id, $user_id, $rating, '$review', NOW())";
     mysqli_query($con, $insert_rating_query);
 
-    // Redirect back to the product details page
     header("Location: product-details.php?product_id=$product_id");
     exit();
 }
