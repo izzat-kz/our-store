@@ -99,25 +99,21 @@ if(isset($_POST['delete_pro']))
 {
     $product_id = $_POST['delete_pro'];
 
-    // 1. Delete records from cart_items associated with the product
     $delete_cart_items_query = "DELETE FROM cart_items WHERE product_id='$product_id'";
     $delete_cart_items_result = mysqli_query($con, $delete_cart_items_query);
 
-    // 2. Delete records from orders associated with the product
     $delete_orders_query = "DELETE FROM orders WHERE product_id='$product_id'";
     $delete_orders_result = mysqli_query($con, $delete_orders_query);
 
-    // 3. Delete records from ratings associated with the product
     $delete_ratings_query = "DELETE FROM ratings WHERE product_id='$product_id'";
     $delete_ratings_result = mysqli_query($con, $delete_ratings_query);
 
-    // 4. Delete the product record
     $delete_product_query = "DELETE FROM products WHERE product_id='$product_id'";
     $delete_product_result = mysqli_query($con, $delete_product_query);
 
     if($delete_product_result)
     {
-        // Delete the associated image file
+        // Delete the image file
         $check_img_query = "SELECT * FROM products WHERE product_id='$product_id'";
         $img_res = mysqli_query($con, $check_img_query);
         $res_data = mysqli_fetch_array($img_res);
@@ -306,20 +302,15 @@ if(isset($_POST['delete_admin']))
 if (isset($_POST['delete_cust'])) {
     $user_id = $_POST['delete_cust'];
 
-
-    // 3. Delete records from orders associated with the customer
     $delete_orders_query = "DELETE FROM orders WHERE cust_id='$user_id'";
     $delete_orders_result = mysqli_query($con, $delete_orders_query);
 
-    // 4. Delete records from destination associated with the customer
     $delete_destination_query = "DELETE FROM destination WHERE cust_id='$user_id'";
     $delete_destination_result = mysqli_query($con, $delete_destination_query);
 
-    // 5. Delete records from ratings associated with the customer
     $delete_ratings_query = "DELETE FROM ratings WHERE cust_id='$user_id'";
     $delete_ratings_result = mysqli_query($con, $delete_ratings_query);
 
-    // 6. Delete records from customers for the customer
     $delete_customer_query = "DELETE FROM customers WHERE cust_id='$user_id'";
     $delete_customer_result = mysqli_query($con, $delete_customer_query);
 
