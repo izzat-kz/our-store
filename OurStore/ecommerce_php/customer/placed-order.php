@@ -3,12 +3,10 @@ session_start();
 include('includes/header.php');
 include('../config/dbcon.php');
 
-// Check if the cart session variable exists
 $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : array();
 
 $cust_id = $_SESSION['auth_user']['user_id'];
 
-// Calculate the grand total
 $grand_total = 0;
 foreach ($cart as $product_id => $product) {
     $quantity = $product['quantity'];
@@ -16,7 +14,6 @@ foreach ($cart as $product_id => $product) {
     $grand_total += $total;
 }
 
-// Insert the order details into the orders table
 $insert_order_query = "INSERT INTO orders (product_id, cust_id, grand_total, created_at, status) VALUES ";
 $values = array();
 foreach ($cart as $product_id => $product) {
@@ -26,19 +23,15 @@ foreach ($cart as $product_id => $product) {
 $insert_order_query .= implode(", ", $values);
 
 
-// Perform the database query
 $result = mysqli_query($con, $insert_order_query);
 
 if ($result) {
-    // Clear the cart
     $_SESSION['cart'] = array();
 
-    // Display the order confirmation message
     echo '<div class="text-center">
               <h2>YOUR ORDER HAS BEEN PLACED, THANK YOU</h2>
           </div>';
 } else {
-    // Display an error message if the order placement failed
     echo '<div class="text-center">
                 <p>Sorry, something went wrong while placing your order. Please try again later.</p>
             </div>';
